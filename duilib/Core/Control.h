@@ -149,6 +149,7 @@ public:
 	 * @return 边框的颜色字符串，对应 global.xml 中的具体颜色值
 	 */
 	std::wstring GetBorderColor() const;
+	std::wstring GetHotBorderColor() const;
 
 	/**
 	 * @brief 设置边框颜色
@@ -156,6 +157,7 @@ public:
 	 * @return 无
 	 */
 	void SetBorderColor(const std::wstring& strBorderColor);
+	void SetHotBorderColor(const std::wstring& strBorderColor);
 
 	/**
 	 * @brief 设置边框的大小
@@ -918,6 +920,7 @@ protected:
 	Image m_bkImage;
 	StateImageMap m_imageMap;
 	std::wstring m_strBorderColor;
+	std::wstring m_strHotBorderColor;
 	nbase::WeakCallbackFlag m_gifWeakFlag;
 	AnimationManager m_animationManager;
 	nbase::WeakCallbackFlag m_loadBkImageWeakFlag;

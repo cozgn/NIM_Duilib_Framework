@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{878F5BF0-652A-4FDB-992B-BB7F26D62F0D}</ProjectGuid>
+    <ProjectGuid>{90063294-3524-4260-9BE4-902D45FFEC0C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>richlist</RootNamespace>
+    <RootNamespace>basic</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -170,16 +170,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="item.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="richlist_form.h" />
+    <ClInclude Include="basic_form.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="item.cpp" />
-    <ClCompile Include="richlist_form.cpp" />
+    <ClCompile Include="basic_form.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -189,11 +187,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="richlist.rc" />
+    <ResourceCompile Include="basic.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="richlist.ico" />
+    <Image Include="basic.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\bin\resources.zip" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\base\base.vcxproj">
@@ -202,9 +203,10 @@
     <ProjectReference Include="..\..\duilib\duilib.vcxproj">
       <Project>{e106acd7-4e53-4aee-942b-d0dd426db34e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\ui_components\ui_components.vcxproj">
-      <Project>{0149ba6e-3c0a-426d-aa0a-0b9ec7742f19}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\bin\resources\themes\default\app\app.xml" />
+    <Xml Include="..\..\bin\resources\themes\default\global.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

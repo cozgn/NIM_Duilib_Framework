@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "main.h"
 #include "browser/multi_browser_manager.h"
+#include <locale.h>
 
 #pragma comment(lib, "dbghelp.lib")
 

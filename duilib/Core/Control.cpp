@@ -85,6 +85,7 @@ Control::Control(const Control& r) :
 	m_strBkColor(r.m_strBkColor),
 	m_colorMap(r.m_colorMap),
 	m_strBorderColor(r.m_strBorderColor),
+	m_strHotBorderColor(r.m_strHotBorderColor),
 	m_gifWeakFlag(),
 	m_animationManager(r.m_animationManager),
 	m_imageMap(r.m_imageMap),
@@ -250,14 +251,23 @@ void Control::SetBorderSize(int nSize)
 
 std::wstring Control::GetBorderColor() const
 {
-    return m_strBorderColor;
+    return m_strBorderColor; 
 }
+
+std::wstring Control::GetHotBorderColor() const { return m_strHotBorderColor; }
 
 void Control::SetBorderColor(const std::wstring& strBorderColor)
 {
     if( m_strBorderColor == strBorderColor ) return;
 
     m_strBorderColor = strBorderColor;
+    Invalidate();
+}
+
+void Control::SetHotBorderColor(const std::wstring& strBorderColor) {
+    if( m_strHotBorderColor == strBorderColor ) return;
+
+    m_strHotBorderColor = strBorderColor;
     Invalidate();
 }
 
@@ -1092,6 +1102,7 @@ void Control::SetAttribute(const std::wstring& strName, const std::wstring& strV
 	else if (strName == _T("pushedcolor"))	SetStateColor(kControlStatePushed, strValue);
 	else if (strName == _T("disabledcolor"))	SetStateColor(kControlStateDisabled, strValue);
 	else if (strName == _T("bordercolor")) SetBorderColor(strValue);
+	else if (strName == _T("hotbordercolor")) SetHotBorderColor(strValue);
 	else if (strName == _T("leftbordersize")) SetLeftBorderSize(_ttoi(strValue.c_str()));
 	else if (strName == _T("topbordersize")) SetTopBorderSize(_ttoi(strValue.c_str()));
 	else if (strName == _T("rightbordersize")) SetRightBorderSize(_ttoi(strValue.c_str()));
@@ -1424,7 +1435,10 @@ void Control::PaintBorder(IRenderContext* pRender)
 		return;
 	}
 	DWORD dwBorderColor = 0;
-	if (!m_strBorderColor.empty()) {
+  
+  if ((m_uButtonState == kControlStateHot || m_uButtonState == kControlStatePushed) && !m_strHotBorderColor.empty()) {
+    dwBorderColor = GlobalManager::GetTextColor(m_strHotBorderColor);
+  } else if (!m_strBorderColor.empty()) {
 		dwBorderColor = GlobalManager::GetTextColor(m_strBorderColor);
 	}
 

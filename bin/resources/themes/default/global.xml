@@ -88,6 +88,15 @@
     <TextColor name="color_palette8" value="#ffa8a8a8"/>
     <TextColor name="color_palette9" value="#ffffffff"/>
 
+    
+    <TextColor name="color_border" value="#FFadadad"/>
+    <TextColor name="color_border_focus" value="#0"/>
+    <TextColor name="color_border_hot" value="#ff0078d7"/>
+    <TextColor name="color_normal" value="#FFe1e1e1"/>
+    <TextColor name="color_focus" value="#FFe1e1e1"/>
+    <TextColor name="color_hot" value="#FFe5f1fb"/>
+    <TextColor name="color_push" value="#ffcde4f7"/>
+
     <!--字体大小-->
     <Class name="font_title" font="system_14"/>
 
@@ -112,6 +121,8 @@
     <Class name="btn_global_blue_80x30" font="system_bold_14" normaltextcolor="white" normalimage="file='../public/button/btn_global_blue_80x30_normal.png'" hotimage="file='../public/button/btn_global_blue_80x30_hovered.png'" pushedimage="file='../public/button/btn_global_blue_80x30_pushed.png'" disabledimage="file='../public/button/btn_global_blue_80x30_normal.png' fade='80'"/>
     <Class name="btn_global_white_80x30" font="system_bold_14" normaltextcolor="dark_gray" normalimage="file='../public/button/btn_global_white_80x30_normal.png'" hotimage="file='../public/button/btn_global_white_80x30_hovered.png'" pushedimage="file='../public/button/btn_global_white_80x30_pushed.png'" disabledimage="file='../public/button/btn_global_white_80x30_normal.png' fade='128'"/>
     <Class name="btn_global_red_80x30" font="system_bold_14" normaltextcolor="white" normalimage="file='../public/button/btn_global_red_80x30_normal.png'" hotimage="file='../public/button/btn_global_red_80x30_hovered.png'" pushedimage="file='../public/button/btn_global_red_80x30_pushed.png'" disabledimage="file='../public/button/btn_global_red_80x30_normal.png' fade='80'"/>
+
+    <Class name="btn_global_win" font="system_16" bordersize="1" bordercolor="color_border" hotbordercolor="color_border_hot"  normalcolor="color_normal" hotcolor="color_hot" pushedcolor="color_push" />
 
     <!--窗口右上角按钮 灰色版 -->
     <Class name="btn_wnd_min" width="auto" height="auto" forenormalimage="file='../public/button/btn_wnd_gray_min.png' dest='4,4,16,16'" normalimage="" hotimage="../public/button/btn_wnd_gray_min_hovered.png" pushedimage="../public/button/btn_wnd_gray_min_pushed.png"/>
