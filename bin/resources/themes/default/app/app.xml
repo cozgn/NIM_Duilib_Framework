@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="800,600" caption="0,0,0,35">
+<Window size="800,370" caption="0,0,0,35" sizebox="2,2,2,2">
   <VBox bkcolor="bk_wnd_darkcolor">
     <HBox width="stretch" height="35" bkcolor="bk_wnd_lightcolor">
       <Control />
@@ -11,10 +11,109 @@
       <Button class="btn_wnd_close" name="closebtn" margin="4,6,8,0"/>
     </HBox>
     <Box>
-      <VBox margin="0,0,0,0" valign="center" halign="center" width="stretch" height="stretch">
+      <HBox width="stretch">
+        <VBox width="stretch" bkcolor="bk_wnd_lightcolor">
+          <HBox width="stretch" childmargin="5">
+            <Keycap class="btn_global_win" text="Esc" width="stretch"/>
+            <Control width="50"/>
+            <Keycap text="F1" width="stretch"/>
+            <Keycap text="F2" width="stretch"/>
+            <Keycap text="F3" width="stretch"/>
+            <Keycap text="F4" width="stretch"/>
+            <Control width="25"/>
+            <Keycap text="F5" width="stretch"/>
+            <Keycap text="F6" width="stretch"/>
+            <Keycap text="F7" width="stretch"/>
+            <Keycap text="F8" width="stretch"/>
+            <Control width="25"/>
+            <Keycap text="F9" width="stretch"/>
+            <Keycap text="F10" width="stretch"/>
+            <Keycap text="F11" width="stretch"/>
+            <Keycap text="F12" width="stretch"/>
+          </HBox>
+          <Control width="stretch" height="10"/>
+          <HBox width="stretch" childmargin="5">
+            <Keycap text="~`"/>
+            <Keycap text="1"/>
+            <Keycap text="2"/>
+            <Keycap text="3"/>
+            <Keycap text="4"/>
+            <Keycap text="5"/>
+            <Keycap text="6"/>
+            <Keycap text="7"/>
+            <Keycap text="8"/>
+            <Keycap text="9"/>
+            <Keycap text="0"/>
+            <Keycap text="-"/>
+            <Keycap text="Backspace" width="120"/>
+          </HBox>
+          <HBox width="stretch" childmargin="5">
+            <Keycap text="Tab" width="100"/>
+            <Keycap text="Q"/>
+            <Keycap text="W"/>
+            <Keycap text="E"/>
+            <Keycap text="R"/>
+            <Keycap text="T"/>
+            <Keycap text="Y"/>
+            <Keycap text="U"/>
+            <Keycap text="I"/>
+            <Keycap text="O"/>
+            <Keycap text="P"/>
+            <Keycap text="["/>
+            <Keycap text="]"/>
+            <Keycap text="|" width="80"/>          
+          </HBox>
+          <HBox width="stretch" childmargin="5">
+            <Keycap text="Caps Lock" width="110"/>
+            <Keycap text="A"/>
+            <Keycap text="S"/>
+            <Keycap text="D"/>
+            <Keycap text="F"/>
+            <Keycap text="G"/>
+            <Keycap text="H"/>
+            <Keycap text="I"/>
+            <Keycap text="K"/>
+            <Keycap text="L"/>
+            <Keycap text=";"/>
+            <Keycap text="'"/>
+            <Keycap text="Enter" width="120"/>
+          </HBox>
+          <HBox width="stretch" childmargin="5">
+            <Keycap text="Shirft" width="140"/>
+            <Keycap text="Z"/>
+            <Keycap text="X"/>
+            <Keycap text="C"/>
+            <Keycap text="V"/>
+            <Keycap text="B"/>
+            <Keycap text="N"/>
+            <Keycap text="M"/>
+            <Keycap text="&lt;"/>
+            <Keycap text="&gt;"/>
+            <Keycap text="/"/>
+            <Keycap text="Shift" width="140"/>
+          </HBox>
+          <HBox width="stretch" childmargin="5">
+            <Keycap text="Ctrl"/>
+            <Keycap text="Win"/>
+            <Keycap text="Alt"/>
+            <Keycap text="Space" width="300"/>
+            <Keycap text="Alt"/>
+            <Keycap text="Win"/>
+            <Keycap text="Alt"/>
+            <Keycap text="Ctrl"/>
+          </HBox>
+        </VBox>
+        
+        <!--<VBox width="stretch" >
+        </VBox>-->
+        <!--<VBox width="stretch" bkcolor="bk_wnd_lightcolor">
+        </VBox>-->
+      </HBox>
+      <!--<VBox margin="0,0,0,0" valign="center" halign="center" width="stretch" height="stretch">
         <Button class="btn_global_win" text="一个简单窗口，带有标题栏和常规按钮。" height="stretch"/>
         <Button   text="一个简单窗口，带有标题栏和常规按钮。"/>
-      </VBox>
+        <Keycap class="btn_global_win" text="自定义控件" height="stretch"/>
+      </VBox>-->
     </Box>
   </VBox>
 </Window>

@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 class BasicForm : public ui::WindowImplBase
 {
@@ -16,6 +17,9 @@ public:
 	virtual std::wstring GetSkinFile() override;
 	virtual std::wstring GetWindowClassName() const override;
 
+	virtual ui::Control* CreateControl(const std::wstring& pstrClass) override;
+
+	virtual LRESULT OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	/**
 	 * 收到 WM_CREATE 消息时该函数会被调用，通常做一些控件初始化的操作
 	 */

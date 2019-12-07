@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "basic_form.h"
+#include "keycap.h"
 
 const std::wstring BasicForm::kClassName = L"Basic";
 
@@ -24,7 +25,21 @@ std::wstring BasicForm::GetSkinFile()
 
 std::wstring BasicForm::GetWindowClassName() const
 {
-	return kClassName;
+	return kClassName; }
+
+ui::Control* BasicForm::CreateControl(const std::wstring& pstrClass) {
+  if (pstrClass.compare(_T("Keycap")) == 0) {
+	  return new ui::Keycap();
+	}
+  return nullptr;
+}
+
+LRESULT BasicForm::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam,
+                             BOOL& bHandled) {
+  if (wParam == VK_ESCAPE) {
+	  Close();
+	}
+  return false;
 }
 
 void BasicForm::InitWindow()
