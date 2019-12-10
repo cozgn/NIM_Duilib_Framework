@@ -2,6 +2,13 @@
 #include "basic_form.h"
 #include "keycap.h"
 
+
+/**
+ * 热力图
+ * 1.为每个数据点设置一个从中心向外灰度渐变的圆；
+ * 2.利用灰度可以叠加的原理，计算每个像素点数据交叉叠加得到的灰度值；
+ * 3.根据每个像素计算得到的灰度值，在一条彩色色带中进行颜色映射，最后对图像进行着色，得到热力图。
+ */
 const std::wstring BasicForm::kClassName = L"Basic";
 
 BasicForm::BasicForm()
