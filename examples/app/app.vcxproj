@@ -170,6 +170,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="chart.h" />
     <ClInclude Include="keycap.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="basic_form.h" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basic_form.cpp" />
+    <ClCompile Include="chart.cpp" />
     <ClCompile Include="keycap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">

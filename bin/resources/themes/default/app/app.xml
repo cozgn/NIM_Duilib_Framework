@@ -115,5 +115,6 @@
         <Keycap class="btn_global_win" text="自定义控件" height="stretch"/>
       </VBox>-->
     </Box>
+  <Chart float="true" width="stretch" height="stretch" margin="0,35,0,0" mouse="false" />
   </VBox>
 </Window>

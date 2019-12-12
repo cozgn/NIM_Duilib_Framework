@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "basic_form.h"
 #include "keycap.h"
+#include "chart.h"
 
 
 /**
@@ -37,7 +38,9 @@ std::wstring BasicForm::GetWindowClassName() const
 ui::Control* BasicForm::CreateControl(const std::wstring& pstrClass) {
   if (pstrClass.compare(_T("Keycap")) == 0) {
 	  return new ui::Keycap();
-	}
+	} else if (pstrClass.compare(_T("Chart")) == 0) {
+    return new ui::ThermodynamicChart();
+  }
   return nullptr;
 }
 

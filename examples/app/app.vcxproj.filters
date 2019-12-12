@@ -33,6 +33,9 @@
     <ClInclude Include="keycap.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="chart.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="keycap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chart.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
