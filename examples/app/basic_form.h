@@ -1,7 +1,10 @@
 #pragma once
 #include "stdafx.h"
 
-class BasicForm : public ui::WindowImplBase
+#include "hook.h"
+#include "repo.h"
+
+class BasicForm : public ui::WindowImplBase, public KeyboardHookHelper::KeyboardEventListener
 {
 public:
 	BasicForm();
@@ -30,6 +33,15 @@ public:
 	 */
 	virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
+	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+
+
+
+
+  virtual bool keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) override;
+
 	static const std::wstring kClassName;
+	KeyboardHookHelper keyboard_hook_helper_;
+	Repo repo_;
 };
 

@@ -171,9 +171,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="chart.h" />
+    <ClInclude Include="hook.h" />
     <ClInclude Include="keycap.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="basic_form.h" />
+    <ClInclude Include="repo.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -181,8 +183,10 @@
   <ItemGroup>
     <ClCompile Include="basic_form.cpp" />
     <ClCompile Include="chart.cpp" />
+    <ClCompile Include="hook.cpp" />
     <ClCompile Include="keycap.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="repo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
