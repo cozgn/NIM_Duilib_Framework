@@ -14,54 +14,55 @@
       <HBox width="stretch">
         <VBox width="stretch" bkcolor="bk_wnd_lightcolor">
           <HBox width="stretch" childmargin="5">
-            <Keycap class="btn_global_win" text="Esc" width="stretch"/>
+            <Keycap class="btn_global_win" text="Esc" vk="27" width="stretch"/>
             <Control width="50"/>
-            <Keycap text="F1" width="stretch"/>
-            <Keycap text="F2" width="stretch"/>
-            <Keycap text="F3" width="stretch"/>
-            <Keycap text="F4" width="stretch"/>
+            <Keycap text="F1" vk="112" width="stretch"/>
+            <Keycap text="F2" vk="123" width="stretch"/>
+            <Keycap text="F3" vk="114" width="stretch"/>
+            <Keycap text="F4" vk="115" width="stretch"/>
             <Control width="25"/>
-            <Keycap text="F5" width="stretch"/>
-            <Keycap text="F6" width="stretch"/>
-            <Keycap text="F7" width="stretch"/>
-            <Keycap text="F8" width="stretch"/>
+            <Keycap text="F5" vk="116" width="stretch"/>
+            <Keycap text="F6" vk="117" width="stretch"/>
+            <Keycap text="F7" vk="118" width="stretch"/>
+            <Keycap text="F8" vk="119" width="stretch"/>
             <Control width="25"/>
-            <Keycap text="F9" width="stretch"/>
-            <Keycap text="F10" width="stretch"/>
-            <Keycap text="F11" width="stretch"/>
-            <Keycap text="F12" width="stretch"/>
+            <Keycap text="F9" vk="120" width="stretch"/>
+            <Keycap text="F10" vk="121" width="stretch"/>
+            <Keycap text="F11" vk="122" width="stretch"/>
+            <Keycap text="F12" vk="123" width="stretch"/>
           </HBox>
           <Control width="stretch" height="10"/>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="~`"/>
-            <Keycap text="1"/>
-            <Keycap text="2"/>
-            <Keycap text="3"/>
-            <Keycap text="4"/>
-            <Keycap text="5"/>
-            <Keycap text="6"/>
-            <Keycap text="7"/>
-            <Keycap text="8"/>
-            <Keycap text="9"/>
-            <Keycap text="0"/>
-            <Keycap text="-"/>
-            <Keycap text="Backspace" width="120"/>
+            <Keycap text="~`" vk="192" />
+            <Keycap text="1" vk="49" />
+            <Keycap text="2" vk="50"/>
+            <Keycap text="3" vk="51"/>
+            <Keycap text="4" vk="52"/>
+            <Keycap text="5" vk="53"/>
+            <Keycap text="6" vk="54"/>
+            <Keycap text="7" vk="55"/>
+            <Keycap text="8" vk="56"/>
+            <Keycap text="9" vk="57"/>
+            <Keycap text="0" vk="48"/>
+            <Keycap text="-" vk="189"/>
+            <Keycap text="=" vk="187"/>
+            <Keycap text="Backspace" vk="8" width="120"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="Tab" width="100"/>
-            <Keycap text="Q"/>
-            <Keycap text="W"/>
-            <Keycap text="E"/>
-            <Keycap text="R"/>
-            <Keycap text="T"/>
-            <Keycap text="Y"/>
-            <Keycap text="U"/>
-            <Keycap text="I"/>
-            <Keycap text="O"/>
-            <Keycap text="P"/>
-            <Keycap text="["/>
-            <Keycap text="]"/>
-            <Keycap text="|" width="80"/>          
+            <Keycap text="Tab" vk="9" width="100"/>
+            <Keycap text="Q" vk="81"/>
+            <Keycap text="W" vk="87"/>
+            <Keycap text="E" vk="69"/>
+            <Keycap text="R" vk="82"/>
+            <Keycap text="T" vk="84"/>
+            <Keycap text="Y" vk="89"/>
+            <Keycap text="U" vk="85"/>
+            <Keycap text="I" vk="73"/>
+            <Keycap text="O" vk="79"/>
+            <Keycap text="P" vk="80"/>
+            <Keycap text="[" vk="219"/>
+            <Keycap text="]" vk="221"/>
+            <Keycap text="|" vk="220" width="80"/>          
           </HBox>
           <HBox width="stretch" childmargin="5">
             <Keycap text="Caps Lock" width="110"/>

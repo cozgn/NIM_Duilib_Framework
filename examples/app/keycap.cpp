@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "keycap.h"
 
+
+#define LOG(...) ::OutputDebugString((nbase::StringPrintf(__VA_ARGS__).append(_T("\n")).c_str()));
+
 ui::Keycap::Keycap() {
   SetAttribute(_T("class"), _T("keycap_global_win"));
   SetAttribute(_T("width"), _T("stretch"));
@@ -54,4 +57,23 @@ void ui::Keycap::PaintText(IRenderContext* pRender) {
 	}
 
 	pRender->DrawText(rc, GetText(), dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
+}
+
+void ui::Keycap::SetAttribute(const std::wstring& strName, const std::wstring& strValue) {
+  if (strName == _T("vk")) {
+	  vk_code_ = _wtoi(strValue.c_str());
+	} else {
+	  __super::SetAttribute(strName, strValue);
+	}
+}
+
+std::wstring ui::Keycap::GetKeyName(int vkcode) { 
+  struct Item {
+	  int vkcode;
+		const WCHAR* name;
+	};
+	Item items[] = {
+     {VK_ESCAPE, _T("Esc")},
+	};
+	return std::wstring(); 
 }

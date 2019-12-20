@@ -73,9 +73,41 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     } else {
       repo_.statistics[wParam] = 1;
     }
-    LOG(_T("%d"), repo_.statistics[wParam]);
+    LOG(_T("vk %d count = %d"), wParam, repo_.statistics[wParam]);
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
+}
+
+
+std::wstring GetKeyName(unsigned int virtualKey) {
+  unsigned int scanCode = MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC);
+
+  // because MapVirtualKey strips the extended bit for some keys
+  switch (virtualKey) {
+    case VK_LEFT:
+    case VK_UP:
+    case VK_RIGHT:
+    case VK_DOWN:  // arrow keys
+    case VK_PRIOR:
+    case VK_NEXT:  // page up and page down
+    case VK_END:
+    case VK_HOME:
+    case VK_INSERT:
+    case VK_DELETE:
+    case VK_DIVIDE:  // numpad slash
+    case VK_NUMLOCK: {
+      scanCode |= 0x100;  // set extended bit
+      break;
+    }
+  }
+
+  WCHAR keyName[50];
+  if (GetKeyNameText(scanCode, keyName, sizeof(keyName)) != 0) {
+    return keyName;
+    VK_F1;
+  } else {
+    return _T("[Error]");
+  }
 }
 
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
