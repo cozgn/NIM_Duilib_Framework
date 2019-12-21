@@ -74,6 +74,10 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
       repo_.statistics[wParam] = 1;
     }
     LOG(_T("vk %d count = %d"), wParam, repo_.statistics[wParam]);
+    auto view = ui::Keycap::AllView()->find(wParam);
+    if (view != ui::Keycap::AllView()->end()) {
+      view->second->Increase();
+    }
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
 }
@@ -112,7 +116,7 @@ std::wstring GetKeyName(unsigned int virtualKey) {
 
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
   KBDLLHOOKSTRUCT* kbd = (KBDLLHOOKSTRUCT*)lParam;
-  if (!(kbd->flags & LLKHF_UP)) {
+  if (kbd->flags & LLKHF_UP) {
     PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 0);
   }
   return false;

@@ -17,7 +17,7 @@
             <Keycap class="btn_global_win" text="Esc" vk="27" width="stretch"/>
             <Control width="50"/>
             <Keycap text="F1" vk="112" width="stretch"/>
-            <Keycap text="F2" vk="123" width="stretch"/>
+            <Keycap text="F2" vk="113" width="stretch"/>
             <Keycap text="F3" vk="114" width="stretch"/>
             <Keycap text="F4" vk="115" width="stretch"/>
             <Control width="25"/>
@@ -65,43 +65,43 @@
             <Keycap text="|" vk="220" width="80"/>          
           </HBox>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="Caps Lock" width="110"/>
-            <Keycap text="A"/>
-            <Keycap text="S"/>
-            <Keycap text="D"/>
-            <Keycap text="F"/>
-            <Keycap text="G"/>
-            <Keycap text="H"/>
-            <Keycap text="I"/>
-            <Keycap text="K"/>
-            <Keycap text="L"/>
-            <Keycap text=";"/>
-            <Keycap text="'"/>
-            <Keycap text="Enter" width="120"/>
+            <Keycap text="Caps" vk="20" width="110"/>
+            <Keycap text="A" vk="65"/>
+            <Keycap text="S" vk="83"/>
+            <Keycap text="D" vk="68"/>
+            <Keycap text="F" vk="70"/>
+            <Keycap text="G" vk="71"/>
+            <Keycap text="H" vk="72"/>
+            <Keycap text="J" vk="74"/>
+            <Keycap text="K" vk="75"/>
+            <Keycap text="L" vk="76"/>
+            <Keycap text=";" vk="186"/>
+            <Keycap text="'" vk="222"/>
+            <Keycap text="Enter" vk="13" width="120"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="Shirft" width="140"/>
-            <Keycap text="Z"/>
-            <Keycap text="X"/>
-            <Keycap text="C"/>
-            <Keycap text="V"/>
-            <Keycap text="B"/>
-            <Keycap text="N"/>
-            <Keycap text="M"/>
-            <Keycap text="&lt;"/>
-            <Keycap text="&gt;"/>
-            <Keycap text="/"/>
-            <Keycap text="Shift" width="140"/>
+            <Keycap text="Shirft" vk="160" width="140"/>
+            <Keycap text="Z" vk="90"/>
+            <Keycap text="X" vk="88"/>
+            <Keycap text="C" vk="67"/>
+            <Keycap text="V" vk="86"/>
+            <Keycap text="B" vk="66"/>
+            <Keycap text="N" vk="78"/>
+            <Keycap text="M" vk="77"/>
+            <Keycap text="&lt;" vk="188"/>
+            <Keycap text="&gt;" vk="190"/>
+            <Keycap text="/" vk="191"/>
+            <Keycap text="Shift" vk="161" width="140"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="Ctrl"/>
-            <Keycap text="Win"/>
-            <Keycap text="Alt"/>
-            <Keycap text="Space" width="300"/>
-            <Keycap text="Alt"/>
-            <Keycap text="Win"/>
-            <Keycap text="Alt"/>
-            <Keycap text="Ctrl"/>
+            <Keycap text="Ctrl" vk="162"/>
+            <Keycap text="Win" vk="91"/>
+            <Keycap text="Alt" vk="164"/>
+            <Keycap text="Space" vk="32" width="300"/>
+            <Keycap text="Alt" vk="165"/>
+            <Keycap text="Win" vk="92"/>
+            <Control width="50"/>
+            <Keycap text="Ctrl" vk="163"/>
           </HBox>
         </VBox>
         

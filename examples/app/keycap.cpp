@@ -4,9 +4,19 @@
 
 #define LOG(...) ::OutputDebugString((nbase::StringPrintf(__VA_ARGS__).append(_T("\n")).c_str()));
 
+std::map<int, ui::Keycap*> ui::Keycap::all_keycaps_;
+
 ui::Keycap::Keycap() {
   SetAttribute(_T("class"), _T("keycap_global_win"));
   SetAttribute(_T("width"), _T("stretch"));
+	SetAttribute(_T("borderround"), _T("3,3,3,3"));
+}
+
+ui::Keycap::~Keycap() {
+  auto i = all_keycaps_.find(vk_code_);
+	if (i != all_keycaps_.end()) {
+	  all_keycaps_.erase(i);
+	}
 }
 
 void ui::Keycap::PaintText(IRenderContext* pRender) {
@@ -57,23 +67,21 @@ void ui::Keycap::PaintText(IRenderContext* pRender) {
 	}
 
 	pRender->DrawText(rc, GetText(), dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
+	rc.left -= 30;
+	rc.top -= 30;
+	pRender->DrawText(rc, nbase::StringPrintf(_T("%d"), count_), dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
 }
 
 void ui::Keycap::SetAttribute(const std::wstring& strName, const std::wstring& strValue) {
   if (strName == _T("vk")) {
 	  vk_code_ = _wtoi(strValue.c_str());
+		all_keycaps_[vk_code_] = this;
 	} else {
 	  __super::SetAttribute(strName, strValue);
 	}
 }
 
 std::wstring ui::Keycap::GetKeyName(int vkcode) { 
-  struct Item {
-	  int vkcode;
-		const WCHAR* name;
-	};
-	Item items[] = {
-     {VK_ESCAPE, _T("Esc")},
-	};
+  
 	return std::wstring(); 
 }
