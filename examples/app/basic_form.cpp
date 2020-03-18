@@ -57,6 +57,10 @@ LRESULT BasicForm::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 void BasicForm::InitWindow() {
   keyboard_hook_helper_.AddKeyboardEventListener(this);
+
+  repo_.statistics[81] = 50;
+  ui::Keycap::AllView()->at(81)->set_count(50);
+
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)

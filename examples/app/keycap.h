@@ -13,6 +13,7 @@ public:
 
   int Count() {return count_;};
   void Increase() { count_++; Invalidate(); };
+  void set_count(int count) {count_ = count; Invalidate();};
   static std::wstring GetKeyName(int vkcode);
   static std::map<int, ui::Keycap*>* AllView() { return &all_keycaps_;};
 
