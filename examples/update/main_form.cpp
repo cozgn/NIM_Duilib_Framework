@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "main_form.h"
+#include <fstream>
 
 #include "httplib.h"
 #include "json.hpp"
 
+#define UI_TEST 1
+
 const std::wstring MainForm::kClassName = L"Update";
 
 void Toast(const std::wstring &msg) {
-  MessageBox(NULL, msg.c_str(), L"Error", 0);
+  MessageBox(NULL, msg.c_str(), L"", 0);
 }
 
 std::string get_host_from_url(const std::string &url) {
@@ -17,7 +20,7 @@ std::string get_host_from_url(const std::string &url) {
   }
   pos1 += 3;
   int pos2 = url.find("/", pos1);
-  return url.substr(pos1, pos2);
+  return url.substr(pos1, pos2 - pos1);
 }
 
 std::string get_path_from_url(const std::string &url) {
@@ -82,33 +85,18 @@ std::wstring MainForm::GetWindowClassName() const { return kClassName; }
 void MainForm::InitWindow() {
   label_title_ = dynamic_cast<ui::Label*>(FindControl(L"title"));
   progress_bar_ = dynamic_cast<ui::Progress*>(FindControl(L"progress"));
-  label_progress_ = dynamic_cast<ui::Label*>(FindControl(L"percent"));
+  label_info_ = dynamic_cast<ui::Label*>(FindControl(L"info"));
 
-  Toast(GetCommandLine());
-  json::JSON obj = json::JSON::Load(nbase::UTF16ToUTF8(GetArgv()));
-  if (obj.hasKey("title")) {
-    label_title_->SetText(nbase::UTF8ToUTF16(obj["title"].ToString()));
-  }
-  if (!obj.hasKey("url")) {
-    Toast(L"No URL");
+#if UI_TEST
+  return ;
+#endif
+
+  if (!ParseCommandLine()) {
+    Close();
     return;
   }
-  StartDownloadTask(obj["url"].ToString());
 
-
-  //std::wstring exe =
-  //    L"D:\\pengzc\\Documents\\sources\\NIM_Duilib_Framework\\bin\\update_d_"
-  //    L"slave.exe";
-  //std::wstring json = L"{\"title\": 123, \"url\": \"http://www.baidu.com\"}";
-
-  //json::JSON obj;
-  //obj["title"] = "this is title";
-  //obj["url"] = "http://www.baidu.com/sadfs_adfasd";
-
-  //std::wstring argv = nbase::UTF8ToUTF16(obj.dump());
-
-  //cmdProcess(nbase::StringPrintf(L"cmd /c start %s %s", exe.c_str(), argv.c_str()));
-
+  Download();
 }
 
 LRESULT MainForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam,
@@ -119,58 +107,96 @@ LRESULT MainForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 void MainForm::OnProgressValueChagned(float value) {}
 
-void MainForm::StartDownloadTask(const std::string &url) {
-  if (tmp_file_name_.empty()) {
-    tmp_file_name_ = CreateTempFile();
+bool MainForm::ParseCommandLine() {
+  Toast(GetArgv());
+  json::JSON obj = json::JSON::Load(nbase::UTF16ToUTF8(GetArgv()));
+  if (!obj.hasKey("title")) {
+    return false;
   }
-  if (tmp_file_name_.empty()) {
-    MessageBox(NULL, L"无法创建临时文件", L"Error", 0);
-    Close();
-    return;
-  }
-  tmp_fstream_ =
-      new std::ofstream(tmp_file_name_, std::ios::out | std::ios::binary);
-  if (!tmp_fstream_->is_open()) {
-    MessageBox(NULL, L"无法打开临时文件", L"Error", 0);
-    Close();
-    return;
-  }
+  label_title_->SetText(nbase::UTF8ToUTF16(obj["title"].ToString()));
 
-  StdClosure task = [this, url]() {
-    httplib::Client cli(get_host_from_url(url));
-    auto progress = [this](uint64_t len, uint64_t total) {
-      std::wstring msg =
-          nbase::StringPrintf(L"%lld / %lld bytes => %d%% complete\n", len,
-                              total, (int)(len * 100 / total));
+  if (!obj.hasKey("launcher")) {
+    return false;
+  }
+  update_desc_.launcher = nbase::UTF8ToUTF16(obj["launcher"].ToString());
 
-      static int last_percent = -1;
-      int percent = len * 100 / total;
-      if (percent != last_percent) {
-        last_percent = percent;
-        nbase::ThreadManager::PostTask(kThreadUI, [this, percent]() {
-          progress_bar_->SetValue(percent);
-          label_progress_->SetText(nbase::StringPrintf(L"%d%%", percent));
-        });
+  if (!obj.hasKey("description")) {
+    return false;
+  }
+  for (auto des : obj["description"].ArrayRange()) {
+    FileDescription f;
+    f.url = nbase::UTF8ToUTF16(des["url"].ToString());
+    f.replace = nbase::UTF8ToUTF16(des["replace"].ToString());
+    Toast(f.url);
+    Toast(f.replace);
+    update_desc_.files_desc.push_back(f);
+  }
+  return update_desc_.files_desc.size() > 0; 
+}
+
+void MainForm::Download() {
+  StdClosure task = [this]() {
+    int retry_count = 0;
+    for (int i = 0; i < update_desc_.files_desc.size(); ++i) {
+      auto desc = update_desc_.files_desc[i];
+      std::wstring tmp_file = desc.tmp.empty() ? CreateTempFile() : desc.tmp;
+      if (tmp_file.empty()) {
+        SetInfo(L"无法创建临时文件");
+        return;
       }
-      return true;
-    };
+      desc.tmp = tmp_file;
+      std::ofstream of(tmp_file, std::ios::out | std::ios::binary);
+      if (!of.is_open()) {
+        SetInfo(L"无法打开临时文件");
+        return;
+      }
 
-    auto content_receiver = [this](const char* data,
-                                   size_t data_length) -> bool {
-      tmp_fstream_->write(data, data_length);
-      return true;
-    };
-    std::shared_ptr<httplib::Response> res =
+      std::string url = nbase::UTF16ToUTF8(desc.url);
+      std::string host = get_host_from_url(url);
+      httplib::Client cli(host);
+      cli.set_connection_timeout(3, 0);
+      auto progress = [this](uint64_t len, uint64_t total) {
+        static int last_percent = -1;
+        int percent = (int)(len * 100 / total);
+        if (percent != last_percent) {
+          last_percent = percent;
+          nbase::ThreadManager::PostTask(kThreadUI, [this, percent]() {
+            progress_bar_->SetValue(percent);
+            label_info_->SetText(nbase::StringPrintf(L"%d%%", percent));
+          });
+        }
+        return true;
+      };
+
+      auto content_receiver = [&of](const char *data, size_t data_length) -> bool {
+        of.write(data, data_length);
+        return true;
+      };
+      std::shared_ptr<httplib::Response> res = 
         cli.Get(get_path_from_url(url).c_str(), content_receiver, progress);
-    if (res->status == 200) {
-      OnDownloadComplete();
+      if (!res) {
+        SetInfo(nbase::StringPrintf(L"无法连接Host: %s", nbase::UTF8ToUTF16(host).c_str()));
+        return;
+      }
+      of.close();
+      if (res->status != 200) {
+        if (retry_count < 3) {
+          --i;
+          ++retry_count;
+          continue;
+        }
+        SetInfo(nbase::StringPrintf(L"下载失败: %d", res->status));
+        return;
+      }
+      retry_count = 0;
+    }
+    //OnDownloadComplete();
+    for (auto desc : update_desc_.files_desc) {
+      nbase::DeleteFileW(desc.tmp);
     }
   };
   nbase::ThreadManager::PostTask(kThreadGlobalMisc, task);
 }
-
-void MainForm::Upgrade(const std::wstring& old_exe,
-                       const std::wstring& new_exe) {}
 
 std::wstring MainForm::CreateTempFile() {
   TCHAR szPathName[MAX_PATH];
@@ -179,26 +205,38 @@ std::wstring MainForm::CreateTempFile() {
     return L"";
   }
   //创建临时文件名并在目录中创建文件
-  if (!::GetTempFileName(szPathName, _T("flythings_auth.tmp"), 0, szFileName)) {
+  if (!::GetTempFileName(szPathName, L"fsauth.tmp", 0, szFileName)) {
     return L"";
   }
   return szFileName;
 }
 
 void MainForm::OnDownloadComplete() {
-  // check crc32
-  //json::JSON obj = json::JSON::Load(nbase::UTF16ToUTF8(GetArgv()));
-  Toast(nbase::StringPrintf(L"download success %s", tmp_file_name_.c_str()).c_str());
+  // check crc32 
+  SetInfo(nbase::StringPrintf(L"正在升级"));
+  for (auto des : update_desc_.files_desc) {
+    bool r = nbase::CopyFileW(des.tmp, des.replace);
+    if (!r) {
+      SetInfo(L"写入文件失败");
+      return;
+    }
+  }
+  SetInfo(L"升级完成");
 }
 
 std::wstring MainForm::GetArgv() {
-  TCHAR exeFullPath[256] = {0};
-  GetModuleFileName(NULL, exeFullPath, MAX_PATH);
-
-  int len = lstrlenW(exeFullPath);
+  TCHAR exe[256] = {0};
+  GetModuleFileName(NULL, exe, MAX_PATH);
+  int len = lstrlenW(exe);
   if (len == 0) {
     return L"";
   }
   std::wstring command = GetCommandLine();
   return command.substr(len);
+}
+
+void MainForm::SetInfo(const std::wstring &msg) {
+  nbase::ThreadManager::PostTask(kThreadUI, [this, msg](){
+    label_info_->SetText(msg);
+  });
 }

@@ -1,7 +1,20 @@
 #pragma once
 
+#include <map>
+
 enum ThreadId { kThreadUI, kThreadGlobalMisc };
 
+struct FileDescription {
+  std::wstring url;
+	std::wstring replace;
+	std::wstring tmp;
+};
+
+struct UpdateDescription {
+  std::wstring title;
+  std::vector<FileDescription> files_desc;
+	std::wstring launcher;
+};
 
 class MainForm : public ui::WindowImplBase
 {
@@ -29,26 +42,28 @@ public:
 	 */
 	virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
-		/**
-     * 动态更新进度条接口
-     */
-   void OnProgressValueChagned(float value);
+	/**
+   * 动态更新进度条接口
+   */
+  void OnProgressValueChagned(float value);
 
 	static const std::wstring kClassName;
 
-private:
-  void StartDownloadTask(const std::string &url);
-	void Upgrade(const std::wstring &old_exe, const std::wstring &new_exe);
+private: 
+  bool ParseCommandLine();
+  void Download();
 	std::wstring CreateTempFile();
 	void OnDownloadComplete();
 	std::wstring GetArgv();
+	void SetInfo(const std::wstring &msg);
 
   ui::Progress* progress_bar_;
-	ui::Label* label_progress_;
+	ui::Label* label_info_;
 	ui::Label* label_title_;
 
-	std::ofstream* tmp_fstream_;
-	std::wstring tmp_file_name_;
+	UpdateDescription update_desc_;
+	//std::ofstream* tmp_fs_;
+	//std::wstring tmp_file_name_;
 
 };
 
