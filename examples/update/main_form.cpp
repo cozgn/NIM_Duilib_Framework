@@ -5,7 +5,7 @@
 #include "httplib.h"
 #include "json.hpp"
 
-#define UI_TEST 1
+#define UI_TEST 0
 
 const std::wstring MainForm::kClassName = L"Update";
 
@@ -83,14 +83,29 @@ std::wstring MainForm::GetSkinFile() { return L"main.xml"; }
 std::wstring MainForm::GetWindowClassName() const { return kClassName; }
 
 void MainForm::InitWindow() {
+  ShowWindow(false);
+
   label_title_ = dynamic_cast<ui::Label*>(FindControl(L"title"));
   progress_bar_ = dynamic_cast<ui::Progress*>(FindControl(L"progress"));
   label_info_ = dynamic_cast<ui::Label*>(FindControl(L"info"));
+  label_total_ = dynamic_cast<ui::Label*>(FindControl(L"total"));
+  btn_restart_ = dynamic_cast<ui::Button*>(FindControl(L"btn_restart"));
+  layout_progress_ = dynamic_cast<ui::Box*>(FindControl(L"layout_progress"));
 
 #if UI_TEST
   return ;
 #endif
+  label_total_->SetText(L"");
+  label_info_->SetText(L"");
+  progress_bar_->SetValue(0);
+  btn_restart_->SetVisible(false);
 
+  btn_restart_->AttachClick([this](ui::EventArgs *args) -> bool {
+    ShowWindow(false);
+    LaunchProgram(update_desc_.launcher);
+    Close();
+    return true;
+  });
   if (!ParseCommandLine()) {
     Close();
     return;
@@ -108,7 +123,7 @@ LRESULT MainForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam,
 void MainForm::OnProgressValueChagned(float value) {}
 
 bool MainForm::ParseCommandLine() {
-  Toast(GetArgv());
+  //Toast(GetArgv());
   json::JSON obj = json::JSON::Load(nbase::UTF16ToUTF8(GetArgv()));
   if (!obj.hasKey("title")) {
     return false;
@@ -127,8 +142,8 @@ bool MainForm::ParseCommandLine() {
     FileDescription f;
     f.url = nbase::UTF8ToUTF16(des["url"].ToString());
     f.replace = nbase::UTF8ToUTF16(des["replace"].ToString());
-    Toast(f.url);
-    Toast(f.replace);
+    //Toast(f.url);
+    //Toast(f.replace);
     update_desc_.files_desc.push_back(f);
   }
   return update_desc_.files_desc.size() > 0; 
@@ -137,8 +152,9 @@ bool MainForm::ParseCommandLine() {
 void MainForm::Download() {
   StdClosure task = [this]() {
     int retry_count = 0;
-    for (int i = 0; i < update_desc_.files_desc.size(); ++i) {
-      auto desc = update_desc_.files_desc[i];
+    for (size_t i = 0; i < update_desc_.files_desc.size(); ++i) {
+      SetTotal(i + 1, update_desc_.files_desc.size());
+      auto& desc = *(update_desc_.files_desc.begin() + i);
       std::wstring tmp_file = desc.tmp.empty() ? CreateTempFile() : desc.tmp;
       if (tmp_file.empty()) {
         SetInfo(L"无法创建临时文件");
@@ -190,7 +206,7 @@ void MainForm::Download() {
       }
       retry_count = 0;
     }
-    //OnDownloadComplete();
+    OnDownloadComplete();
     for (auto desc : update_desc_.files_desc) {
       nbase::DeleteFileW(desc.tmp);
     }
@@ -213,11 +229,18 @@ std::wstring MainForm::CreateTempFile() {
 
 void MainForm::OnDownloadComplete() {
   // check crc32 
+  nbase::ThreadManager::PostTask(kThreadUI, [this](){
+     progress_bar_->SetVisible(false);
+     layout_progress_->SetVisible(false);
+     btn_restart_->SetVisible(true);
+     label_title_->SetVisible(false);
+  });
+
   SetInfo(nbase::StringPrintf(L"正在升级"));
   for (auto des : update_desc_.files_desc) {
-    bool r = nbase::CopyFileW(des.tmp, des.replace);
+    bool r = CopyFile(des.tmp.c_str(), des.replace.c_str(), false);
     if (!r) {
-      SetInfo(L"写入文件失败");
+      SetInfo(nbase::StringPrintf(L"写入文件失败: %d", GetLastError()));
       return;
     }
   }
@@ -232,11 +255,24 @@ std::wstring MainForm::GetArgv() {
     return L"";
   }
   std::wstring command = GetCommandLine();
-  return command.substr(len);
+  //if (command[0] == L'\"') {
+  //  command = command.substr(1);
+  //}
+  //if (command[command.length() - 2] == L'\"') {
+  //  command = command.substr(0, command.length() - 1);
+  //}
+  return command.substr(command.find(exe) + len);
 }
 
 void MainForm::SetInfo(const std::wstring &msg) {
   nbase::ThreadManager::PostTask(kThreadUI, [this, msg](){
     label_info_->SetText(msg);
   });
+}
+
+void MainForm::SetTotal(int current, int total) {
+  nbase::ThreadManager::PostTask(kThreadUI, [this, current, total](){
+    label_total_->SetText(nbase::StringPrintf(L"%d/%d", current, total));
+  });
+
 }

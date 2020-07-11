@@ -47,6 +47,9 @@ public:
    */
   void OnProgressValueChagned(float value);
 
+
+	static std::wstring GetArgv();
+
 	static const std::wstring kClassName;
 
 private: 
@@ -54,12 +57,15 @@ private:
   void Download();
 	std::wstring CreateTempFile();
 	void OnDownloadComplete();
-	std::wstring GetArgv();
 	void SetInfo(const std::wstring &msg);
+	void SetTotal(int current, int total);
 
   ui::Progress* progress_bar_;
 	ui::Label* label_info_;
 	ui::Label* label_title_;
+	ui::Label* label_total_;
+	ui::Box*   layout_progress_;
+	ui::Button* btn_restart_;
 
 	UpdateDescription update_desc_;
 	//std::ofstream* tmp_fs_;

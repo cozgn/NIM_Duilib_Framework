@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="550,410" caption="0,0,0,35">
+<Window size="550,410" caption="0,0,0,30">
   <VBox bkcolor="bk_wnd_darkcolor">
-    <HBox width="stretch" height="35" bkcolor="bk_wnd_darkcolor">
+    <HBox width="stretch" height="20" bkcolor="bk_wnd_darkcolor">
       <Control />
       <Button class="btn_wnd_min" name="minbtn" margin="0,0,0,0"/>
       <Button class="btn_wnd_close" name="closebtn" margin="0,0,0,0"/>
     </HBox>
     <Box>
-      <VBox margin="0,-35,0,0" valign="center" halign="center" width="auto" height="auto">
-        <Label name="title" halign="center" text="FlyThings" font="system_22" />
-        <Progress margin="0,50,0,20" name="progress" value="100"  bkcolor="bk_progress_bk" height="3" width="280" hor="true" max="100" value="30" min="0" progresscolor="bk_progress_progress"/>
-        <HBox  bkcolor="bk_progress_bk" width="stretch" height="auto">
-          <Label name="info" align="center" width="stretch" height="auto"  text="76%" font="system_22" bkcolor="white" />
-          <Label name="nu" align="right" halign="left" valign="bottom" width="auto" height="auto"  text="1/33" font="system_12" bkcolor="red" />
+      <VBox margin="0,-20,0,0" valign="center" halign="center" width="auto" height="auto">
+        <Label name="title" halign="center" text="title" font="system_22" />
+        <Progress margin="0,50,0,20" name="progress" bkcolor="bk_progress_bk" height="3" width="280" hor="true" max="100" value="30" min="0" progresscolor="bk_progress_progress"/>
+        <HBox width="stretch" height="auto" name="layout_progress" >
+          <Label name="info" align="center" width="stretch" height="auto"  text="76%" font="system_22" normaltextcolor="lightcolor"/>
+          <Label float="true" name="total" valign="bottom" halign="right" width="auto" height="auto"  text="99/99" font="system_12" normaltextcolor="lightcolor"/>
         </HBox>
+        <Button class="btn_global_blue_80x30" name="btn_restart" text="重新启动" width="150" height="40" halign="center"/>
       </VBox>
     </Box>
   </VBox>

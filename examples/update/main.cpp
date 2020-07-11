@@ -13,6 +13,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
+
+	std::wstring s = MainForm::GetArgv();
+	if (MainForm::GetArgv().length() < 10) {
+	  return 0;
+	}
+
 	// 创建主线程
 	MainThread thread;
 
