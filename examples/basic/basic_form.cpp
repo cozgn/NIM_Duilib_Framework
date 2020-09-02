@@ -29,6 +29,25 @@ std::wstring BasicForm::GetWindowClassName() const
 
 void BasicForm::InitWindow()
 {
+  static ui::TabBox* tabbox = dynamic_cast<ui::TabBox*>(FindControl(L"tabbox"));
+  tabbox->SetFadeSwitch(true);
+  ui::Button* btn1 = dynamic_cast<ui::Button*>(FindControl(L"btn1"));
+  btn1->AttachClick([&](ui::EventArgs* args)->bool {
+    tabbox->SelectItem(L"tab1");
+    return true;
+  });
+  ui::Button* btn2 = dynamic_cast<ui::Button*>(FindControl(L"btn2"));
+  btn2->AttachClick([&](ui::EventArgs* args)->bool {
+    tabbox->SelectItem(L"tab2");
+    return true;
+  });
+
+  ui::Button* btn3 = dynamic_cast<ui::Button*>(FindControl(L"btn3"));
+  btn3->AttachClick([&](ui::EventArgs* args)->bool {
+    tabbox->SelectItem(2);
+    return false;
+  });
+
 
 }
 

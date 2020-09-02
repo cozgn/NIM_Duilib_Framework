@@ -58,4 +58,7 @@
   <ItemGroup>
     <None Include="..\..\bin\resources.zip" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\bin\resources\themes\default\basic\basic.xml" />
+  </ItemGroup>
 </Project>
