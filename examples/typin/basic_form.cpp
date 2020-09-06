@@ -81,6 +81,11 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     auto view = ui::Keycap::AllView()->find(wParam);
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();
+
+      SqliteDatabase db(L"");
+      std::vector<KeyboardRecord> v;
+      v.push_back({wParam, GetTickCount64()});
+      db.Insert(v);
     }
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
