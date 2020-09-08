@@ -2,6 +2,7 @@
 #include "basic_form.h"
 #include "keycap.h"
 #include "chart.h"
+#include <chrono>
 
 #define WM_USER_KEY WM_USER + 1
 
@@ -60,11 +61,14 @@ void BasicForm::InitWindow() {
 
   repo_.statistics[81] = 50;
   ui::Keycap::AllView()->at(81)->set_count(50);
-
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+  SqliteDatabase db(L"");
+  db.Insert(records_);
+  records_.clear();
+
 	PostQuitMessage(0L);
 	return __super::OnClose(uMsg, wParam, lParam, bHandled);
 }
@@ -82,11 +86,14 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();
 
-      SqliteDatabase db(L"");
-      std::vector<KeyboardRecord> v;
-      v.push_back({wParam, GetTickCount64()});
-      db.Insert(v);
+      records_.push_back({wParam, (uint64_t)lParam});
+      if (records_.size() > 100) {
+        SqliteDatabase db(L"");
+        db.Insert(records_);
+        records_.clear();
+      }
     }
+    return 0;
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
 }
@@ -124,8 +131,11 @@ std::wstring GetKeyName(unsigned int virtualKey) {
 
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
   KBDLLHOOKSTRUCT* kbd = (KBDLLHOOKSTRUCT*)lParam;
-  if (kbd->flags & LLKHF_UP) {
-    PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 0);
+  using namespace std::chrono;
+  if (!(kbd->flags & LLKHF_UP)) {
+    PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 
+    (LPARAM)time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count());
   }
   return false;
 }
+

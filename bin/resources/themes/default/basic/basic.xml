@@ -10,26 +10,24 @@
       </Box>
       <Button class="btn_wnd_close" name="closebtn" margin="4,6,8,0"/>
     </HBox>
-    <Box>
-      <!--<VBox margin="0,0,0,0" valign="center" halign="center" width="auto" height="auto">
+    <!--<VBox margin="0,0,0,0" valign="center" halign="center" width="auto" height="auto">
         <Label name="tooltip" text="一个简单窗口，带有标题栏和常规按钮。"/>
       </VBox>-->
-      <TabBox name="tabbox" mousechild="false" >
-        <HBox name="tab1" margin="0,0,0,0" valign="center" halign="center" width="auto" height="auto">
-          <Label name="tooltip" text="1一个简单窗口，带有标题栏和常规按钮。"/>
-        </HBox>
-        <HBox name="tab2" margin="0,0,0,0" valign="center" halign="center" width="auto" height="auto">
-          <Label name="tooltip" text="2一个简单窗口，带有标题栏和常规按钮。"/>
-        </HBox>
-        <HBox name="tab3" margin="0,0,0,0" valign="center" halign="center" width="auto" height="auto">
-          <Label name="tooltip" text="3一个简单窗口，带有标题栏和常规按钮。"/>
-        </HBox>
-      </TabBox>
-      <HBox>
-        <Button class="btn_global_win" name="btn1" text="btn1"></Button>
-        <Button class="btn_global_win" name="btn2" text="btn2"></Button>
-        <Button class="btn_global_win" name="btn3" text="btn3"></Button>
+    <TabBox name="tabbox" fadeswitch="false">
+      <HBox name="tab1" margin="0,0,0,0" valign="center" halign="center" width="stretch" height="auto">
+        <Label text="1一个简单窗口，带有标题栏和常规按钮。"/>
       </HBox>
-    </Box>
+      <HBox name="tab2" margin="0,0,0,0" valign="center" halign="center" width="stretch" height="auto">
+        <Label text="2一个简单窗口，带有标题栏和常规按钮。"/>
+      </HBox>
+      <HBox name="tab3" margin="0,0,0,0" valign="center" halign="center" width="stretch" height="auto">
+        <Label text="3一个简单窗口，带有标题栏和常规按钮。"/>
+      </HBox>
+    </TabBox>
+    <HBox>
+      <Button class="btn_global_win" name="btn1" text="btn1"></Button>
+      <Button class="btn_global_win" name="btn2" text="btn2"></Button>
+      <Button class="btn_global_win" name="btn3" text="btn3"></Button>
+    </HBox>
   </VBox>
 </Window>

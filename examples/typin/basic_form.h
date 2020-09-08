@@ -43,5 +43,6 @@ public:
 	static const std::wstring kClassName;
 	KeyboardHookHelper keyboard_hook_helper_;
 	Repo repo_;
+  std::vector<KeyboardRecord> records_;
 };
 
