@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="800,370" caption="0,0,0,35" sizebox="2,2,2,2">
-  <VBox bkcolor="bk_wnd_darkcolor">
+<Window size="900,390" caption="0,0,0,35" >
+
+  <VBox bkcolor="app_bg_color">
     <HBox width="stretch" height="35" bkcolor="bk_wnd_lightcolor">
       <Control />
       <Button class="btn_wnd_min" name="minbtn" margin="4,6,0,0"/>
-      <Box width="21" margin="4,6,0,0">
+      <!--<Box width="21" margin="4,6,0,0">
         <Button class="btn_wnd_max" name="maxbtn"/>
         <Button class="btn_wnd_restore" name="restorebtn" visible="false"/>
-      </Box>
+      </Box>-->
       <Button class="btn_wnd_close" name="closebtn" margin="4,6,8,0"/>
     </HBox>
-    <Box>
+    <Box padding="5,5,5,5">
       <HBox width="stretch">
-        <VBox width="stretch" bkcolor="bk_wnd_lightcolor">
+        <VBox width="stretch">
           <HBox width="stretch" childmargin="5">
-            <Keycap class="btn_global_win" text="Esc" vk="27" width="stretch"/>
+            <Keycap text="Esc" vk="27" width="stretch"/>
             <Control width="50"/>
             <Keycap text="F1" vk="112" width="stretch"/>
             <Keycap text="F2" vk="113" width="stretch"/>

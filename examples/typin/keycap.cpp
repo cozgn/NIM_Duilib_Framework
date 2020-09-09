@@ -7,9 +7,17 @@
 std::map<int, ui::Keycap*> ui::Keycap::all_keycaps_;
 
 ui::Keycap::Keycap() {
-  SetAttribute(_T("class"), _T("keycap_global_win"));
+  //SetAttribute(_T("class"), _T("keycap_global_win"));
   SetAttribute(_T("width"), _T("stretch"));
-	SetAttribute(_T("borderround"), _T("3,3,3,3"));
+	SetAttribute(_T("font"), _T("system_16"));
+	SetAttribute(_T("bordersize"), _T("0"));
+	//SetAttribute(_T("borderround"), _T("3,3,3,3"));
+	//SetAttribute(_T("bordercolor"), _T("color_border"));
+	//SetAttribute(_T("hotbordercolor"), _T("color_border_hot"));
+	SetAttribute(_T("normalcolor"), _T("app_vk_bg_normal_color"));
+	SetAttribute(_T("hotcolor"), _T("app_vk_bg_hot_color"));
+	SetAttribute(_T("pushedcolor"), _T("app_vk_bg_push_color"));
+	SetAttribute(_T("height"), _T("50"));
 }
 
 ui::Keycap::~Keycap() {

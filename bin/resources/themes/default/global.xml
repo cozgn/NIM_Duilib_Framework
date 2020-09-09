@@ -97,6 +97,12 @@
     <TextColor name="color_hot" value="#FFe5f1fb"/>
     <TextColor name="color_push" value="#ffcde4f7"/>
 
+    <!-- APP -->
+    <TextColor name="app_bg_color" value="#ffd4d5d7"/>
+    <TextColor name="app_vk_bg_normal_color" value="#ffffffff"/>
+    <TextColor name="app_vk_bg_push_color" value="#ff494b4c"/>
+    <TextColor name="app_vk_bg_hot_color" value="#ffefeff0"/>
+
     <!--字体大小-->
     <Class name="font_title" font="system_14"/>
 
@@ -123,7 +129,6 @@
     <Class name="btn_global_red_80x30" font="system_bold_14" normaltextcolor="white" normalimage="file='../public/button/btn_global_red_80x30_normal.png'" hotimage="file='../public/button/btn_global_red_80x30_hovered.png'" pushedimage="file='../public/button/btn_global_red_80x30_pushed.png'" disabledimage="file='../public/button/btn_global_red_80x30_normal.png' fade='80'"/>
 
     <Class name="btn_global_win" font="system_16" bordersize="1" bordercolor="color_border" hotbordercolor="color_border_hot"  normalcolor="color_normal" hotcolor="color_hot" pushedcolor="color_push" />
-    <Class name="keycap_global_win" font="system_16" bordersize="1" bordercolor="color_border" hotbordercolor="color_border_hot"  normalcolor="color_normal" hotcolor="color_hot" pushedcolor="color_push" height="50" />
 
     <!--窗口右上角按钮 灰色版 -->
     <Class name="btn_wnd_min" width="auto" height="auto" forenormalimage="file='../public/button/btn_wnd_gray_min.png' dest='4,4,16,16'" normalimage="" hotimage="../public/button/btn_wnd_gray_min_hovered.png" pushedimage="../public/button/btn_wnd_gray_min_pushed.png"/>
