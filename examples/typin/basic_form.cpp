@@ -7,8 +7,6 @@
 
 #define WM_USER_KEY WM_USER + 1
 
-#define LOG(...) ::OutputDebugString((nbase::StringPrintf(__VA_ARGS__).append(_T("\n")).c_str()));
-
 /**
  * 热力图
  * 1.为每个数据点设置一个从中心向外灰度渐变的圆；
@@ -61,10 +59,6 @@ LRESULT BasicForm::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 void BasicForm::InitWindow() {
   keyboard_hook_helper_.AddKeyboardEventListener(this);
-
-  repo_.statistics[81] = 50;
-  ui::Keycap::AllView()->at(81)->set_count(50);
-
   //ShowWindow(false);
 }
 
@@ -86,7 +80,7 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     } else {
       repo_.statistics[wParam] = 1;
     }
-    LOG(_T("vk %d count = %d"), wParam, repo_.statistics[wParam]);
+    LOGI(_T("vk %d count = %d"), wParam, repo_.statistics[wParam]);
     auto view = ui::Keycap::AllView()->find(wParam);
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();

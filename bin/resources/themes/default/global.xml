@@ -102,6 +102,7 @@
     <TextColor name="app_vk_bg_normal_color" value="#ffffffff"/>
     <TextColor name="app_vk_bg_push_color" value="#ff494b4c"/>
     <TextColor name="app_vk_bg_hot_color" value="#ffefeff0"/>
+    <TextColor name="app_vk_hint_text_color" value="#ff717171"/>
 
     <!--字体大小-->
     <Class name="font_title" font="system_14"/>

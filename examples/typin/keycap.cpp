@@ -1,15 +1,13 @@
 #include "stdafx.h"
 #include "keycap.h"
-
-
-#define LOG(...) ::OutputDebugString((nbase::StringPrintf(__VA_ARGS__).append(_T("\n")).c_str()));
+#include "typedef.h"
 
 std::map<int, ui::Keycap*> ui::Keycap::all_keycaps_;
 
 ui::Keycap::Keycap() {
   //SetAttribute(_T("class"), _T("keycap_global_win"));
   SetAttribute(_T("width"), _T("stretch"));
-	SetAttribute(_T("font"), _T("system_16"));
+	SetAttribute(_T("font"), _T("system_bold_14"));
 	SetAttribute(_T("bordersize"), _T("0"));
 	//SetAttribute(_T("borderround"), _T("3,3,3,3"));
 	//SetAttribute(_T("bordercolor"), _T("color_border"));
@@ -17,6 +15,7 @@ ui::Keycap::Keycap() {
 	SetAttribute(_T("normalcolor"), _T("app_vk_bg_normal_color"));
 	SetAttribute(_T("hotcolor"), _T("app_vk_bg_hot_color"));
 	SetAttribute(_T("pushedcolor"), _T("app_vk_bg_push_color"));
+	SetAttribute(_T("pushedtextcolor"), _T("app_vk_bg_normal_color"));
 	SetAttribute(_T("height"), _T("50"));
 }
 
@@ -74,10 +73,16 @@ void ui::Keycap::PaintText(IRenderContext* pRender) {
 		}
 	}
 
-	pRender->DrawText(rc, GetText(), dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
-	rc.left -= 30;
-	rc.top -= 30;
-	pRender->DrawText(rc, nbase::StringPrintf(_T("%d"), count_), dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
+	pRender->DrawText(rc, GetText(), 
+	                  dwClrColor, m_sFontId, m_uTextStyle, 255, m_bLineLimit);
+
+	DWORD hint_text_color = GlobalManager::GetTextColor(L"app_vk_hint_text_color");
+	pRender->DrawText(rc, format(L"%d", count_), 
+	                  hint_text_color , 
+										L"system_12", 
+										DT_BOTTOM | DT_CENTER,
+										100,
+										m_bLineLimit);
 }
 
 void ui::Keycap::SetAttribute(const std::wstring& strName, const std::wstring& strValue) {
