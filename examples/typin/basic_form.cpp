@@ -2,6 +2,7 @@
 #include "basic_form.h"
 #include "keycap.h"
 #include "chart.h"
+#include "typedef.h"
 #include <chrono>
 
 #define WM_USER_KEY WM_USER + 1
@@ -16,13 +17,15 @@
  */
 const std::wstring BasicForm::kClassName = L"Basic";
 
-BasicForm::BasicForm()
+BasicForm::BasicForm():exit_(false), check_thread_(&BasicForm::CheckThread, this)
 {
 }
 
 
 BasicForm::~BasicForm()
 {
+  exit_ = true;
+  check_thread_.join();
 }
 
 std::wstring BasicForm::GetSkinFolder()
@@ -61,6 +64,8 @@ void BasicForm::InitWindow() {
 
   repo_.statistics[81] = 50;
   ui::Keycap::AllView()->at(81)->set_count(50);
+
+  //ShowWindow(false);
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -85,13 +90,6 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     auto view = ui::Keycap::AllView()->find(wParam);
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();
-
-      records_.push_back({wParam, (uint64_t)lParam});
-      if (records_.size() > 100) {
-        SqliteDatabase db(L"");
-        db.Insert(records_);
-        records_.clear();
-      }
     }
     return 0;
   }
@@ -132,10 +130,33 @@ std::wstring GetKeyName(unsigned int virtualKey) {
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
   KBDLLHOOKSTRUCT* kbd = (KBDLLHOOKSTRUCT*)lParam;
   using namespace std::chrono;
+  static int64_t last_vk_code = -1;
   if (!(kbd->flags & LLKHF_UP)) {
-    PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 
-    (LPARAM)time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count());
+    if (kbd->vkCode == last_vk_code) {
+      return false;
+    }
+    last_vk_code = kbd->vkCode;
+    uint64_t now = time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
+    PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 0);
+    std::lock_guard<std::mutex> lock(mutex_);
+    records_.push_back({kbd->vkCode, now});
+  } else {
+    last_vk_code = -1;
   }
   return false;
+}
+
+void BasicForm::CheckThread() {
+  while (!exit_) {
+    if (records_.size() > 0) {
+        SqliteDatabase db(L"");
+        mutex_.lock();
+        std::vector<KeyboardRecord> tmp = records_;
+        records_.clear();
+        mutex_.unlock();
+        db.Insert(tmp);
+    }
+    Sleep(3000);
+  }
 }
 
