@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
+#include <shellapi.h>
 #include "hook.h"
 #include "repo.h"
 #include <mutex>
@@ -38,6 +39,11 @@ public:
 
 
 
+	
+	void InitTray();
+	void ShowTray();
+	void DeleteTray();
+
 
   virtual bool keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) override;
 
@@ -52,5 +58,8 @@ public:
 
 	std::thread check_thread_;
 	bool exit_;
+
+  NOTIFYICONDATA notifyicondata_;
+	UINT WM_TASKBAR_CREATED;
 };
 

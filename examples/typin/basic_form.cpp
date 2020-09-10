@@ -4,8 +4,11 @@
 #include "chart.h"
 #include "typedef.h"
 #include <chrono>
+#include "resource.h"
 
-#define WM_USER_KEY WM_USER + 1
+
+#define WM_USER_KEY     WM_USER + 1
+#define WM_APP_TRAY     WM_USER + 2
 
 /**
  * 热力图
@@ -59,7 +62,8 @@ LRESULT BasicForm::OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 void BasicForm::InitWindow() {
   keyboard_hook_helper_.AddKeyboardEventListener(this);
-  //ShowWindow(false);
+  InitTray();
+  WM_TASKBAR_CREATED = RegisterWindowMessage(TEXT("TaskbarCreated"));
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -73,6 +77,29 @@ LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
 }
 
 LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
+
+  switch (uMsg) {
+    case WM_SIZE: {
+      if (wParam == SIZE_MINIMIZED) {
+        ShowWindow(false);
+        ShowTray();
+      }
+    } break;
+    case WM_APP_TRAY:
+      if (lParam == WM_LBUTTONDBLCLK) {
+        ShowWindow(true);
+        ToTopMost(false);
+        DeleteTray();
+      }
+      break;
+    default:
+      if (WM_TASKBAR_CREATED == uMsg) {
+        //是否重建托盘
+      }
+      break;
+  }
+
+
   if (uMsg == WM_USER_KEY) {
     auto i = repo_.statistics.find(wParam);
     if (i != repo_.statistics.end()) {
@@ -90,35 +117,22 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
   return __super::HandleMessage(uMsg, wParam, lParam);
 }
 
+void BasicForm::InitTray() {
+  notifyicondata_.cbSize = (DWORD)sizeof(NOTIFYICONDATA);
+  notifyicondata_.hWnd = GetHWND();
+  notifyicondata_.uID = IDR_MAINFRAME;
+  notifyicondata_.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+  notifyicondata_.uCallbackMessage = WM_APP_TRAY;
+  notifyicondata_.hIcon = LoadIcon(GetModuleHandle(0), MAKEINTRESOURCE(IDI_SMALL));
+  wcscpy_s(notifyicondata_.szTip, _T("typin")); 
+}
 
-std::wstring GetKeyName(unsigned int virtualKey) {
-  unsigned int scanCode = MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC);
+void BasicForm::ShowTray() {
+  Shell_NotifyIcon(NIM_ADD, &notifyicondata_);
+}
 
-  // because MapVirtualKey strips the extended bit for some keys
-  switch (virtualKey) {
-    case VK_LEFT:
-    case VK_UP:
-    case VK_RIGHT:
-    case VK_DOWN:  // arrow keys
-    case VK_PRIOR:
-    case VK_NEXT:  // page up and page down
-    case VK_END:
-    case VK_HOME:
-    case VK_INSERT:
-    case VK_DELETE:
-    case VK_DIVIDE:  // numpad slash
-    case VK_NUMLOCK: {
-      scanCode |= 0x100;  // set extended bit
-      break;
-    }
-  }
-
-  WCHAR keyName[50];
-  if (GetKeyNameText(scanCode, keyName, sizeof(keyName)) != 0) {
-    return keyName;
-  } else {
-    return _T("[Error]");
-  }
+void BasicForm::DeleteTray() {
+  Shell_NotifyIcon(NIM_DELETE, &notifyicondata_);  //在托盘中删除图标
 }
 
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
