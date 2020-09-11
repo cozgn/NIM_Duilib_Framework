@@ -206,6 +206,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="basic.ico" />
+    <Image Include="icon.ico" />
+    <Image Include="icon1.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
