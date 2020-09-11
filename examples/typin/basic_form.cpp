@@ -64,6 +64,8 @@ void BasicForm::InitWindow() {
   keyboard_hook_helper_.AddKeyboardEventListener(this);
   InitTray();
   WM_TASKBAR_CREATED = RegisterWindowMessage(TEXT("TaskbarCreated"));
+  
+  SetIcon(IDI_TYPIN);
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
