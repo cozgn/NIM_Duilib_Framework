@@ -20,6 +20,7 @@ const std::wstring BasicForm::kClassName = L"Typin";
 
 BasicForm::BasicForm():exit_(false), check_thread_(&BasicForm::CheckThread, this)
 {
+  last_input_time_ = 0;
 }
 
 
@@ -70,10 +71,13 @@ void BasicForm::InitWindow() {
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-  SqliteDatabase db(L"");
-  db.Insert(records_);
-  records_.clear();
-
+  exit_ = true;
+  check_thread_.join();
+  if (records_.size() > 0) {
+    SqliteDatabase db(L"");
+    db.Insert(records_);
+    records_.clear();
+  }
 	PostQuitMessage(0L);
 	return __super::OnClose(uMsg, wParam, lParam, bHandled);
 }
@@ -150,6 +154,7 @@ bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
     PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 0);
     std::lock_guard<std::mutex> lock(mutex_);
     records_.push_back({kbd->vkCode, now});
+    last_input_time_ = GetTickCount64();
   } else {
     last_vk_code = -1;
   }
@@ -158,15 +163,18 @@ bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
 
 void BasicForm::CheckThread() {
   while (!exit_) {
-    if (records_.size() > 0) {
+    if ((records_.size() > 0) && (GetTickCount64() - last_input_time_ > 3000)) {
         SqliteDatabase db(L"");
-        mutex_.lock();
-        std::vector<KeyboardRecord> tmp = records_;
-        records_.clear();
-        mutex_.unlock();
+        std::vector<KeyboardRecord> tmp;
+        {
+          std::lock_guard<std::mutex> lock(mutex_);
+          tmp = records_;
+          records_.clear();
+          last_input_time_ = 0;
+        }
         db.Insert(tmp);
     }
-    Sleep(3000);
+    Sleep(1500);
   }
 }
 

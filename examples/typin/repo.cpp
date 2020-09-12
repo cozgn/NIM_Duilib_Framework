@@ -15,6 +15,7 @@ SqliteDatabase::SqliteDatabase(const std::wstring &db) {
 SqliteDatabase::~SqliteDatabase() {}
 
 bool SqliteDatabase::Insert(std::vector<KeyboardRecord> &v) {
+  progress_timer a(L"sqlite3 insert");
   sqlite3 *DB;
   std::string sql =
       "CREATE TABLE if not exists keyboard("
@@ -27,28 +28,29 @@ bool SqliteDatabase::Insert(std::vector<KeyboardRecord> &v) {
   exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
 
   if (exit != SQLITE_OK) {
-    OutputDebugString(L"Error Create Table\n");
+    LOGV(L"Error Create Table");
     OutputDebugStringA(messaggeError);
     sqlite3_free(messaggeError);
   } else {
-    OutputDebugString(L"Table created Successfully\n");
+    LOGV(L"Table created Successfully");
   }
 
   std::string sql_insert;
+  sqlite3_exec(DB, "BEGIN TRANSACTION;", NULL, NULL, NULL);
   for (auto& r : v) {
     std::string str = format(
     "insert into keyboard ('virtual_key_code', 'created_at') values (%d, %d);", 
     r.virtual_key_code, r.millisecond);
     exit = sqlite3_exec(DB, str.c_str(), NULL, 0, &messaggeError);
     if (exit != SQLITE_OK) {
-      OutputDebugString(L"insert failed\n");
+      LOGV(L"insert failed");
       OutputDebugStringA(messaggeError);
       sqlite3_free(messaggeError);
     } else {
-      OutputDebugString(L"insert ok\n");
+      LOGV(L"insert ok");
     }
   }
-
+  sqlite3_exec(DB, "END TRANSACTION;", NULL, NULL, NULL);
   sqlite3_close(DB);
   return true; 
 }

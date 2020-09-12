@@ -58,6 +58,7 @@ public:
 
 	std::thread check_thread_;
 	bool exit_;
+	uint64_t last_input_time_;
 
   NOTIFYICONDATA notifyicondata_;
 	UINT WM_TASKBAR_CREATED;
