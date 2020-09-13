@@ -8,14 +8,12 @@ public:
 };
 
 struct KeyboardRecord {
-  uint64_t virtual_key_code;
-  uint64_t millisecond;
+  int virtual_key_code;
+  int64_t millisecond;
 };
 
 class SqliteDatabase {
 public:
-  SqliteDatabase(const std::wstring &db);
-  virtual ~SqliteDatabase();
-
-  bool Insert(std::vector<KeyboardRecord> &v);
+  static bool Insert(const std::wstring &db, std::vector<KeyboardRecord> &v);
+  static void Select(const std::wstring &db, std::map<int, int64_t>* data);
 };

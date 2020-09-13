@@ -6,9 +6,11 @@
 #include <chrono>
 #include "resource.h"
 
-
 #define WM_USER_KEY     WM_USER + 1
 #define WM_APP_TRAY     WM_USER + 2
+
+static const TCHAR* DB_PATH =
+      L"keyboard.db";
 
 /**
  * 热力图
@@ -27,7 +29,9 @@ BasicForm::BasicForm():exit_(false), check_thread_(&BasicForm::CheckThread, this
 BasicForm::~BasicForm()
 {
   exit_ = true;
-  check_thread_.join();
+  if (check_thread_.joinable()) {
+    check_thread_.join();
+  }
 }
 
 std::wstring BasicForm::GetSkinFolder()
@@ -42,7 +46,8 @@ std::wstring BasicForm::GetSkinFile()
 
 std::wstring BasicForm::GetWindowClassName() const
 {
-	return kClassName; }
+	return kClassName; 
+}
 
 ui::Control* BasicForm::CreateControl(const std::wstring& pstrClass) {
   if (pstrClass.compare(_T("Keycap")) == 0) {
@@ -67,6 +72,15 @@ void BasicForm::InitWindow() {
   WM_TASKBAR_CREATED = RegisterWindowMessage(TEXT("TaskbarCreated"));
   
   SetIcon(IDI_TYPIN);
+  std::map<int, int64_t> data;
+  SqliteDatabase::Select(DB_PATH, &data);
+  auto views = ui::Keycap::AllView();
+  for (auto& r : data) {
+    auto v = views->find(r.first);
+    if (v != views->end()) {
+      (*views)[r.first]->set_count(r.second);
+    }
+  }
 }
 
 LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -74,8 +88,7 @@ LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
   exit_ = true;
   check_thread_.join();
   if (records_.size() > 0) {
-    SqliteDatabase db(L"");
-    db.Insert(records_);
+    SqliteDatabase::Insert(DB_PATH, records_);
     records_.clear();
   }
 	PostQuitMessage(0L);
@@ -107,14 +120,14 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 
   if (uMsg == WM_USER_KEY) {
-    auto i = repo_.statistics.find(wParam);
-    if (i != repo_.statistics.end()) {
-      repo_.statistics[wParam] = i->second + 1;
-    } else {
-      repo_.statistics[wParam] = 1;
-    }
-    LOGI(_T("vk %d count = %d"), wParam, repo_.statistics[wParam]);
-    auto view = ui::Keycap::AllView()->find(wParam);
+    //auto i = repo_.statistics.find((int)wParam);
+    //if (i != repo_.statistics.end()) {
+    //  repo_.statistics[(int)wParam] = i->second + 1;
+    //} else {
+    //  repo_.statistics[(int)wParam] = 1;
+    //}
+    //LOGI(_T("vk %u count = %d"), wParam, repo_.statistics[(int)wParam]);
+    auto view = ui::Keycap::AllView()->find((int)wParam);
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();
     }
@@ -138,7 +151,7 @@ void BasicForm::ShowTray() {
 }
 
 void BasicForm::DeleteTray() {
-  Shell_NotifyIcon(NIM_DELETE, &notifyicondata_);  //在托盘中删除图标
+  Shell_NotifyIcon(NIM_DELETE, &notifyicondata_);
 }
 
 bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
@@ -150,10 +163,10 @@ bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
       return false;
     }
     last_vk_code = kbd->vkCode;
-    uint64_t now = time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
+    int64_t now = time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
     PostMessageW(WM_USER_KEY, (WPARAM)kbd->vkCode, 0);
     std::lock_guard<std::mutex> lock(mutex_);
-    records_.push_back({kbd->vkCode, now});
+    records_.push_back({(int)kbd->vkCode, now});
     last_input_time_ = GetTickCount64();
   } else {
     last_vk_code = -1;
@@ -164,7 +177,6 @@ bool BasicForm::keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) {
 void BasicForm::CheckThread() {
   while (!exit_) {
     if ((records_.size() > 0) && (GetTickCount64() - last_input_time_ > 3000)) {
-        SqliteDatabase db(L"");
         std::vector<KeyboardRecord> tmp;
         {
           std::lock_guard<std::mutex> lock(mutex_);
@@ -172,7 +184,7 @@ void BasicForm::CheckThread() {
           records_.clear();
           last_input_time_ = 0;
         }
-        db.Insert(tmp);
+        SqliteDatabase::Insert(DB_PATH, tmp);
     }
     Sleep(1500);
   }
