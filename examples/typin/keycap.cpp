@@ -10,7 +10,7 @@ ui::Keycap::Keycap() {
 	SetAttribute(_T("font"), _T("app_consolas_bold_14"));
 	SetAttribute(_T("bordersize"), _T("0"));
 	SetAttribute(_T("singleline"), _T("false"));
-	SetAttribute(_T("textpadding"), _T("5,5,5,5"));
+	SetAttribute(_T("textpadding"), _T("8,5,8,5"));
 	SetAttribute(_T("align"), _T("left"));
 	//SetAttribute(_T("bordercolor"), _T("color_border"));
 	//SetAttribute(_T("hotbordercolor"), _T("color_border_hot"));
@@ -98,9 +98,6 @@ void ui::Keycap::SetAttribute(const std::wstring& strName, const std::wstring& s
 		all_keycaps_[vk_code_] = this;
 	} else if (strName == _T("text")) {
 	  letters = Split(strValue, L" ");
-		for (auto l : letters) {
-		  LOGI(L"%s", l.c_str());
-		}
 	  __super::SetAttribute(strName, strValue);
 	} else {
 	  __super::SetAttribute(strName, strValue);

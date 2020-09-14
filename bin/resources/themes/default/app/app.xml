@@ -39,15 +39,15 @@
             <Keycap text="@ 2" vk="50" />
             <Keycap text="# 3" vk="51"/>
             <Keycap text="$ 4" vk="52"/>
-            <Keycap text="5" vk="53"/>
-            <Keycap text="6" vk="54"/>
-            <Keycap text="7" vk="55"/>
-            <Keycap text="8" vk="56"/>
-            <Keycap text="9" vk="57"/>
-            <Keycap text="0" vk="48"/>
-            <Keycap text="-" vk="189"/>
-            <Keycap text="=" vk="187"/>
-            <Keycap text="Backspace" vk="8" width="120"/>
+            <Keycap text="% 5" vk="53"/>
+            <Keycap text="^ 6" vk="54"/>
+            <Keycap text="&amp; 7" vk="55"/>
+            <Keycap text="* 8" vk="56"/>
+            <Keycap text="( 9" vk="57"/>
+            <Keycap text=") 0" vk="48"/>
+            <Keycap text="_ -" vk="189"/>
+            <Keycap text="+ =" vk="187"/>
+            <Keycap text="Backspace" vk="8" width="120" align="right"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
             <Keycap text="Tab" vk="9" width="100"/>
@@ -61,12 +61,12 @@
             <Keycap text="I" vk="73"/>
             <Keycap text="O" vk="79"/>
             <Keycap text="P" vk="80"/>
-            <Keycap text="[" vk="219"/>
-            <Keycap text="]" vk="221"/>
-            <Keycap text="|" vk="220" width="80"/>          
+            <Keycap text="{ [" vk="219"/>
+            <Keycap text="} ]" vk="221"/>
+            <Keycap text="| \" vk="220" width="80" align="center"/>          
           </HBox>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="Caps" vk="20" width="110"/>
+            <Keycap text="CapsLock" vk="20" width="110"/>
             <Keycap text="A" vk="65"/>
             <Keycap text="S" vk="83"/>
             <Keycap text="D" vk="68"/>
@@ -76,9 +76,9 @@
             <Keycap text="J" vk="74"/>
             <Keycap text="K" vk="75"/>
             <Keycap text="L" vk="76"/>
-            <Keycap text=";" vk="186"/>
-            <Keycap text="'" vk="222"/>
-            <Keycap text="Enter" vk="13" width="120"/>
+            <Keycap text=": ;" vk="186"/>
+            <Keycap text="&quot; '" vk="222"/>
+            <Keycap text="Enter" vk="13" width="120" align="right"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
             <Keycap text="Shirft" vk="160" width="140"/>
@@ -89,20 +89,20 @@
             <Keycap text="B" vk="66"/>
             <Keycap text="N" vk="78"/>
             <Keycap text="M" vk="77"/>
-            <Keycap text="&lt;" vk="188"/>
-            <Keycap text="&gt;" vk="190"/>
-            <Keycap text="/" vk="191"/>
-            <Keycap text="Shift" vk="161" width="140"/>
+            <Keycap text="&lt; ," vk="188"/>
+            <Keycap text="&gt; ." vk="190"/>
+            <Keycap text="? /" vk="191"/>
+            <Keycap text="Shift" vk="161" width="140" align="right"/>
           </HBox>
           <HBox width="stretch" childmargin="5">
             <Keycap text="Ctrl" vk="162"/>
             <Keycap text="Win" vk="91"/>
             <Keycap text="Alt" vk="164"/>
-            <Keycap text="Space" vk="32" width="300"/>
-            <Keycap text="Alt" vk="165"/>
-            <Keycap text="Win" vk="92"/>
-            <Control width="50"/>
-            <Keycap text="Ctrl" vk="163"/>
+            <Keycap text="Poker" vk="32" width="340" align="right"/>
+            <Keycap text="Alt" vk="165" align="right"/>
+            <Keycap text="Win" vk="92" align="right"/>
+            <Control width="70"/>
+            <Keycap text="Ctrl" vk="163" align="right"/>
           </HBox>
         </VBox>
         
