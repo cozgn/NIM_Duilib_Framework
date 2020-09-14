@@ -98,6 +98,7 @@
     <TextColor name="color_push" value="#ffcde4f7"/>
 
     <!-- APP -->
+    <Font id="app_consolas_bold_14" name="Consolas" size="14" bold="true"/>
     <TextColor name="app_bg_color" value="#ffd4d5d7"/>
     <TextColor name="app_vk_bg_normal_color" value="#ffffffff"/>
     <TextColor name="app_vk_bg_push_color" value="#ff494b4c"/>

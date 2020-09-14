@@ -34,11 +34,11 @@
           </HBox>
           <Control width="stretch" height="10"/>
           <HBox width="stretch" childmargin="5">
-            <Keycap text="~`" vk="192" />
-            <Keycap text="1" vk="49" />
-            <Keycap text="2" vk="50"/>
-            <Keycap text="3" vk="51"/>
-            <Keycap text="4" vk="52"/>
+            <Keycap text="~ `" vk="192" />
+            <Keycap text="! 1" vk="49"/>
+            <Keycap text="@ 2" vk="50" />
+            <Keycap text="# 3" vk="51"/>
+            <Keycap text="$ 4" vk="52"/>
             <Keycap text="5" vk="53"/>
             <Keycap text="6" vk="54"/>
             <Keycap text="7" vk="55"/>

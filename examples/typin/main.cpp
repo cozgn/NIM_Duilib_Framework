@@ -49,7 +49,6 @@ void MainThread::Init()
 	ui::GlobalManager::Startup(L"resources\\", ui::CreateControlCallback(), true);
 #endif
 
-	// 创建一个默认带有阴影的居中窗口
 	BasicForm* window = new BasicForm();
 	window->Create(NULL, BasicForm::kClassName.c_str(), WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX, 0);
 	window->CenterWindow();

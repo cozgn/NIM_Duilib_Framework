@@ -17,9 +17,14 @@ public:
   static std::wstring GetKeyName(int vkcode);
   static std::map<int, ui::Keycap*>* AllView() { return &all_keycaps_;};
 
+  std::vector<std::wstring> Split(const std::wstring& str,
+                                 const std::wstring& delim,
+                                 const bool trim_empty = false);
+
 private:
   int vk_code_;
   int64_t count_; 
+  std::vector<std::wstring> letters;
   static std::map<int, ui::Keycap*> all_keycaps_;
 };
 }

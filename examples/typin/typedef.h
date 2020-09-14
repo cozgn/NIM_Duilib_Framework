@@ -49,6 +49,33 @@ inline std::string format(const char* format, ...) {
 #endif
 
 
+inline std::string replace(const std::string& str, const std::string& old_str,
+                           const std::string& new_str) {
+  std::string::size_type pos = 0;
+  if (old_str.empty()) {
+    return str;
+  }
+  std::string temp = str;
+  while (std::string::npos != (pos = temp.find(old_str))) {
+    temp = temp.replace(pos, old_str.size(), new_str);
+  }
+  return temp;
+}
+
+inline std::wstring replace(const std::wstring& str, const std::wstring& old_str,
+                           const std::wstring& new_str) {
+  std::wstring::size_type pos = 0;
+  if (old_str.empty()) {
+    return str;
+  }
+  std::wstring temp = str;
+  while (std::wstring::npos != (pos = temp.find(old_str))) {
+    temp = temp.replace(pos, old_str.size(), new_str);
+  }
+  return temp;
+}
+
+
 
 std::wstring LastErrorStr(DWORD error_code);
 
