@@ -63,7 +63,7 @@
             <Keycap text="P" vk="80"/>
             <Keycap text="{ [" vk="219"/>
             <Keycap text="} ]" vk="221"/>
-            <Keycap text="| \" vk="220" width="80" align="center"/>          
+            <Keycap text="| \" vk="220" width="80" align="right"/>          
           </HBox>
           <HBox width="stretch" childmargin="5">
             <Keycap text="CapsLock" vk="20" width="110"/>
