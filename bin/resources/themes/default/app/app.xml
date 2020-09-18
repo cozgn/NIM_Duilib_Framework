@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="900,390" caption="0,0,0,35" >
+<Window size="900,390" caption="0,0,0,35" shadowimage="shadow.png" shadowcorner="9,9,9,9">
 
   <VBox bkcolor="app_bg_color">
     <HBox width="stretch" height="35" bkcolor="bk_wnd_lightcolor">
