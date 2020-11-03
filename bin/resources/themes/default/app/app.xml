@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window size="900,390" caption="0,0,0,35" shadowimage="shadow.png" shadowcorner="9,9,9,9">
+<Window size="900,390" caption="0,0,0,35" >
 
-  <VBox bkcolor="app_bg_color">
-    <HBox width="stretch" height="35" bkcolor="bk_wnd_lightcolor">
+  <VBox bkcolor="app_frame_bg_color">
+    <HBox width="stretch" height="35" >
       <Control />
       <Button class="btn_wnd_min" name="minbtn" margin="4,6,0,0"/>
       <!--<Box width="21" margin="4,6,0,0">
@@ -11,7 +11,7 @@
       </Box>-->
       <Button class="btn_wnd_close" name="closebtn" margin="4,6,8,0"/>
     </HBox>
-    <Box padding="5,5,5,5">
+    <Box padding="5,0,5,5">
       <HBox width="stretch">
         <VBox width="stretch">
           <HBox width="stretch" childmargin="5">
