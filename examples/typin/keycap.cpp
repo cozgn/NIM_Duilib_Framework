@@ -8,11 +8,11 @@ ui::Keycap::Keycap() {
   //SetAttribute(_T("class"), _T("keycap_global_win"));
   SetAttribute(_T("width"), _T("stretch"));
 	SetAttribute(_T("font"), _T("app_consolas_bold_14"));
-	SetAttribute(_T("bordersize"), _T("0"));
+	SetAttribute(_T("bordersize"), _T("1"));
 	SetAttribute(_T("singleline"), _T("false"));
 	SetAttribute(_T("textpadding"), _T("8,5,8,5"));
 	SetAttribute(_T("align"), _T("left"));
-	//SetAttribute(_T("bordercolor"), _T("color_border"));
+	SetAttribute(_T("bordercolor"), _T("app_vk_border_color"));
 	//SetAttribute(_T("hotbordercolor"), _T("color_border_hot"));
 	SetAttribute(_T("normalcolor"), _T("app_vk_bg_normal_color"));
 	SetAttribute(_T("hotcolor"), _T("app_vk_bg_hot_color"));

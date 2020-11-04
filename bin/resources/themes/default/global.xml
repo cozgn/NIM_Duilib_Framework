@@ -103,6 +103,7 @@
     <TextColor name="app_bg_color" value="#ffeeeef2"/>
     <TextColor name="app_vk_bg_normal_color" value="#ffffffff"/>
     <TextColor name="app_vk_bg_push_color" value="#ff98abb6"/>
+    <TextColor name="app_vk_border_color" value="#8898abb6"/>
     <TextColor name="app_vk_bg_hot_color" value="#ffdededf"/>
     <TextColor name="app_vk_hint_text_color" value="#ff717171"/>
 
