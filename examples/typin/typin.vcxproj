@@ -175,6 +175,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="registry.hpp" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="chart.h" />
     <ClInclude Include="hook.h" />
     <ClInclude Include="keycap.h" />
@@ -188,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basic_form.cpp" />
+    <ClCompile Include="registry.cpp" />
+    <ClCompile Include="settings.cpp" />
     <ClCompile Include="chart.cpp" />
     <ClCompile Include="hook.cpp" />
     <ClCompile Include="keycap.cpp" />

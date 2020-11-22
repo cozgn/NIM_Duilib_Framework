@@ -45,6 +45,12 @@
     <ClInclude Include="typedef.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="registry.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +75,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="typedef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="registry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -37,7 +37,10 @@ public:
 
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
+	static const std::wstring kClassName;
 
+private:
+	LRESULT HandleAppTrayMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	
 	void InitTray();
@@ -50,7 +53,6 @@ public:
 
   void CheckThread();
 
-	static const std::wstring kClassName;
 	KeyboardHookHelper keyboard_hook_helper_;
 	Repo repo_;
   std::vector<KeyboardRecord> records_;

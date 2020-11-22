@@ -6,11 +6,16 @@
 #include <chrono>
 #include "resource.h"
 
+#include "settings.h"
+
 #define WM_USER_KEY     WM_USER + 1
 #define WM_APP_TRAY     WM_USER + 2
 
-static const TCHAR* DB_PATH =
-      L"keyboard.db";
+static const TCHAR* DB_PATH = L"keyboard.db";
+
+enum TrayOption {
+  RunAtBoot,
+};
 
 /**
  * 热力图
@@ -81,10 +86,11 @@ void BasicForm::InitWindow() {
       (*views)[r.first]->set_count(r.second);
     }
   }
+  ShowTray();
 }
 
-LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-{
+LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+  DeleteTray();
   exit_ = true;
   check_thread_.join();
   if (records_.size() > 0) {
@@ -105,11 +111,10 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
       }
     } break;
     case WM_APP_TRAY:
-      if (lParam == WM_LBUTTONDBLCLK) {
-        ShowWindow(true);
-        ToTopMost(false);
-        DeleteTray();
-      }
+      HandleAppTrayMessage(uMsg, wParam, lParam);
+      break;
+    case WM_COMMAND:
+      HandleAppTrayMessage(uMsg, wParam, lParam);
       break;
     default:
       if (WM_TASKBAR_CREATED == uMsg) {
@@ -120,13 +125,6 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 
   if (uMsg == WM_USER_KEY) {
-    //auto i = repo_.statistics.find((int)wParam);
-    //if (i != repo_.statistics.end()) {
-    //  repo_.statistics[(int)wParam] = i->second + 1;
-    //} else {
-    //  repo_.statistics[(int)wParam] = 1;
-    //}
-    //LOGI(_T("vk %u count = %d"), wParam, repo_.statistics[(int)wParam]);
     auto view = ui::Keycap::AllView()->find((int)wParam);
     if (view != ui::Keycap::AllView()->end()) {
       view->second->Increase();
@@ -134,6 +132,45 @@ LRESULT BasicForm::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
     return 0;
   }
   return __super::HandleMessage(uMsg, wParam, lParam);
+}
+
+LRESULT BasicForm::HandleAppTrayMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  if (uMsg == WM_APP_TRAY) {
+    switch (lParam)
+    {
+    case WM_LBUTTONDOWN:
+      ShowWindow(true);
+      ToTopMost(false);
+      //DeleteTray();
+      //MessageBox(NULL, TEXT("Recv notify icon message"), TEXT("notify"), MB_ICONHAND);
+      break;
+    case WM_RBUTTONDOWN:
+      POINT pt;
+      GetCursorPos(&pt);
+      HMENU hMenu;
+      hMenu = CreatePopupMenu();
+      //AppendMenu(hMenu, MF_STRING, 2, TEXT("打怪"));
+      //AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
+      AppendMenu(hMenu, 
+        BootStart::isEnable() ? MF_CHECKED : MF_UNCHECKED,
+        TrayOption::RunAtBoot, TEXT("开机启动"));
+      TrackPopupMenu(hMenu, TPM_RIGHTBUTTON, pt.x, pt.y, NULL, GetHWND(), NULL);
+      break;
+      break;
+    }
+  }
+  else if (uMsg == WM_COMMAND) {
+    switch (wParam)
+    {
+    case TrayOption::RunAtBoot: {
+      BootStart::setEnable(!BootStart::isEnable());
+      }
+      break;
+    default:
+      break;
+    }
+  }
+  return LRESULT(0);
 }
 
 void BasicForm::InitTray() {
