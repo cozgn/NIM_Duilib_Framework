@@ -11,8 +11,6 @@
 #define WM_USER_KEY     WM_USER + 1
 #define WM_APP_TRAY     WM_USER + 2
 
-static const TCHAR* DB_PATH = L"keyboard.db";
-
 enum TrayOption {
   RunAtBoot,
 };
@@ -78,7 +76,7 @@ void BasicForm::InitWindow() {
   
   SetIcon(IDI_TYPIN);
   std::map<int, int64_t> data;
-  SqliteDatabase::Select(DB_PATH, &data);
+  SqliteDatabase::Select(GetDatabasePath(), &data);
   auto views = ui::Keycap::AllView();
   for (auto& r : data) {
     auto v = views->find(r.first);
@@ -94,7 +92,7 @@ LRESULT BasicForm::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandl
   exit_ = true;
   check_thread_.join();
   if (records_.size() > 0) {
-    SqliteDatabase::Insert(DB_PATH, records_);
+    SqliteDatabase::Insert(GetDatabasePath(), records_);
     records_.clear();
   }
 	PostQuitMessage(0L);
@@ -221,9 +219,18 @@ void BasicForm::CheckThread() {
           records_.clear();
           last_input_time_ = 0;
         }
-        SqliteDatabase::Insert(DB_PATH, tmp);
+        SqliteDatabase::Insert(GetDatabasePath(), tmp);
     }
     Sleep(1500);
   }
+}
+
+std::wstring BasicForm::GetDatabasePath() { 
+  TCHAR exe[MAX_PATH] = {0};
+  if (0 == GetModuleFileName(NULL, exe, MAX_PATH)) {
+    ASSERT(false);
+  };
+  std::wstring path(exe);
+  return path.substr(0, path.find_last_of(L"\\")) + L"\\typin.db"; 
 }
 

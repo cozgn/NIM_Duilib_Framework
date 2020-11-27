@@ -50,8 +50,8 @@ private:
 
   virtual bool keyboardEvent(int nCode, WPARAM wParam, LPARAM lParam) override;
 
-
   void CheckThread();
+	std::wstring GetDatabasePath();
 
 	KeyboardHookHelper keyboard_hook_helper_;
 	Repo repo_;
